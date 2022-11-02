@@ -13,7 +13,6 @@ def get_run_name(args):
 	current_date = datetime.today().strftime('%Y_%m_%d_%H_%M_%S')
 	return str(current_date)+"_"+str(args.env)+"_"+str(args.algo)+"_t"+str(args.timesteps)+"_seed"+str(args.seed)+"_"+socket.gethostname()
 
-
 def get_random_string(n=5):
 	return ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(n))
 

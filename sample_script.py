@@ -47,11 +47,8 @@ def main():
     env = gym.make(args.env)
     test_env = gym.make(args.test_env)
 
-    # wandb.config.path = run_path
-    # wandb.config.hostname = socket.gethostname()
-
-    # wandb.run.summary["gaussian_dr"] = best_bounds
-    # wandb.run.summary["mse"] = mse
+    wandb.config.path = run_path
+    wandb.config.hostname = socket.gethostname()
 
     env = make_vec_env(args.env, n_envs=args.now, seed=args.seed, vec_env_cls=RandomSubprocVecEnv)
 
@@ -95,44 +92,29 @@ def main():
     wandb.run.summary["target_mean_reward"] = mean_reward
     wandb.run.summary["target_std_reward"] = std_reward
 
-
     wandb.finish()
 
 
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--env', default='RandomHopper-v0', type=str, help='Random envs environments')
-    parser.add_argument('--test_env', default=None, type=str, help='Test env')
+    parser.add_argument('--env', default='RandomHopper-v0', type=str, help='Train gym env')
+    parser.add_argument('--test_env', default=None, type=str, help='Test gym env')
     parser.add_argument('--group', default=None, type=str, help='Wandb run group')
     parser.add_argument('--algo', default='sac', type=str, help='RL Algo (ppo, sac)')
     parser.add_argument('--lr', default=None, type=float, help='Learning rate')
-    parser.add_argument('--now', default=1, type=int, help='Number of cpus')
+    parser.add_argument('--now', default=1, type=int, help='Number of cpus for parallelization')
     parser.add_argument('--timesteps', '-t', default=1000, type=int, help='Training timesteps')
     parser.add_argument('--reward_threshold', default=False, action='store_true', help='Stop at reward threshold')
     parser.add_argument('--eval_freq', default=10000, type=int, help='timesteps frequency for training evaluations')
     parser.add_argument('--eval_episodes', default=50, type=int, help='# episodes for training evaluations')
     parser.add_argument('--test_episodes', default=100, type=int, help='# episodes for test evaluations')
-    parser.add_argument('--test_render', default=False, action='store_true', help='Render test episodes')
+    # parser.add_argument('--test_render', default=False, action='store_true', help='Render test episodes')
     parser.add_argument('--seed', default=0, type=int, help='Random seed')
     parser.add_argument('--device', default='cpu', type=str, help='<cpu,cuda>')
     parser.add_argument('--verbose', default=0, type=int, help='0,1,2')
     parser.add_argument('--notes', default=None, type=str, help='Wandb notes')
     parser.add_argument('--offline', default=False, action='store_true', help='Offline run without wandb')
-
-    parser.add_argument("--n-trajectories", "-n", type=int, default=None, help="Number of target trajectories for running DROPO. if --sparse-mode or --data random is selected, this parameter refers to the number of single TRANSITIONS instead.")
-    parser.add_argument("--l", type=int, default=1, help="Lambda hyperparameter")
-    parser.add_argument('--data', default='random', type=str, help='Offline data collection method [random, off_policy, custom]')
-    parser.add_argument('--data_path', default=None, type=str, help='Path to custom offline dataset')
-    parser.add_argument('--off_policy', default=None, type=str, help='Path to model for data collection off-policy')
-    parser.add_argument("--no-sync-parall", default=False, action='store_true', help="If set, avoids asking `popsize` values before telling their values during parallelization.")
-    # parser.add_argument("--sparse-mode", "-sm", default=False, action='store_true', help="Whether to use sparse transitions for running DROPO than reproducing full episodes. (Default: False)")
-    parser.add_argument("--budget", type=int, default=5000, help="Number of evaluations in the opt. problem (Default: 1000)")
-    parser.add_argument("--epsilon", "-eps", type=float, default=1e-5, help="Epsilon hyperparameter. Valid only when additive_variance is set to True (default: 1e-3)")
-    parser.add_argument("--sample_size", "-ss", type=int, default=100, help="Number of observations to sample to estimate the next-state distribution (Default: 100)")
-    parser.add_argument('--inference_only', default=False, action='store_true', help='Avoid policy training')
-    parser.add_argument('--clipping', default=None, type=int, help='Clipping the real-world rollout at <clipping> state-transitions')
-    parser.add_argument('--clip_state', default=None, type=int, help='Clip state vector to first <clip_state> dimensions for DROPO state-space likelihood computation')
 
     return parser.parse_args()
 
