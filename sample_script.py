@@ -79,7 +79,7 @@ def main():
 
     """Evaluation on target domain"""
     print('\n\n--- TARGET DOMAIN EVALUATION ---')
-    test_env = make_vec_env(args.test_env, n_envs=args.now, seed=args.seed, vec_env_cls=RandomSubprocVecEnv)
+    test_env = make_vec_env(args.test_env, n_envs=args.now, seed=args.seed, vec_env_cls=SubprocVecEnv)
     policy = Policy(algo=args.algo, env=test_env, device=args.device, seed=args.seed)
     policy.load_state_dict(best_policy)
 
