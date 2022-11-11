@@ -33,7 +33,7 @@ def main():
     random_string = get_random_string(5)
 
     wandb.init(config=vars(args),
-             project="<PROJECT_NAME",
+             project="<PROJECT_NAME>",
              group=(args.env+'_dropo' if args.group is None else args.group),
              name='DROPO'+('InfOnly' if args.inference_only else '')+'_'+args.algo+'_seed'+str(args.seed)+'_'+random_string,
              save_code=True,
