@@ -108,7 +108,6 @@ def parse_args():
     parser.add_argument('--test_episodes', default=100, type=int, help='# episodes for test evaluations')
     parser.add_argument('--seed', default=0, type=int, help='Random seed')
     parser.add_argument('--device', default='cpu', type=str, help='<cpu,cuda>')
-    parser.add_argument('--verbose', default=0, type=int, help='0,1,2')
     parser.add_argument('--notes', default=None, type=str, help='Wandb notes')
     parser.add_argument('--offline', default=False, action='store_true', help='Offline run without wandb')
 
