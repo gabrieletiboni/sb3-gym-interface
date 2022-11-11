@@ -1,8 +1,4 @@
-"""Sample script for using sb3-gym-template
-
-  Examples:
-
-"""
+"""Sample script for using sb3-gym-template"""
 from pprint import pprint
 import argparse
 import pdb
@@ -17,6 +13,7 @@ import gym
 import torch
 import wandb
 from stable_baselines3.common.env_util import make_vec_env
+from stable_baselines3.common.vec_env import SubprocVecEnv
 
 # import random_envs
 # from envs.RandomVecEnv import RandomSubprocVecEnv
@@ -50,7 +47,7 @@ def main():
     wandb.config.path = run_path
     wandb.config.hostname = socket.gethostname()
 
-    env = make_vec_env(args.env, n_envs=args.now, seed=args.seed, vec_env_cls=RandomSubprocVecEnv)
+    env = make_vec_env(args.env, n_envs=args.now, seed=args.seed, vec_env_cls=SubprocVecEnv)
 
     policy = Policy(algo=args.algo,
                     env=env,
@@ -109,7 +106,6 @@ def parse_args():
     parser.add_argument('--eval_freq', default=10000, type=int, help='timesteps frequency for training evaluations')
     parser.add_argument('--eval_episodes', default=50, type=int, help='# episodes for training evaluations')
     parser.add_argument('--test_episodes', default=100, type=int, help='# episodes for test evaluations')
-    # parser.add_argument('--test_render', default=False, action='store_true', help='Render test episodes')
     parser.add_argument('--seed', default=0, type=int, help='Random seed')
     parser.add_argument('--device', default='cpu', type=str, help='<cpu,cuda>')
     parser.add_argument('--verbose', default=0, type=int, help='0,1,2')
