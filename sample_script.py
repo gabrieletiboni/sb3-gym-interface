@@ -38,7 +38,7 @@ def main():
              notes=args.notes,
              mode=('online' if not args.offline else 'disabled'))
 
-    run_path = "runs/"+str(args.env)+"/dropo/"+get_run_name(args)+"_"+random_string+"/"
+    run_path = "runs/"+str(args.env)+"/"+get_run_name(args)+"_"+random_string+"/"
     create_dirs(run_path)
 
     env = gym.make(args.env)
