@@ -21,8 +21,10 @@ from utils.utils import *
 from policy.policy import Policy
 
 def main():
-
-    assert args.env is not None and args.test_env is not None
+    assert args.env is not None
+    
+    if args.test_env is None:
+        args.test_env = args.env
 
     pprint(vars(args))
     set_seed(args.seed)
@@ -95,7 +97,7 @@ def main():
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--env', default='RandomHopper-v0', type=str, help='Train gym env')
+    parser.add_argument('--env', default=None, type=str, help='Train gym env [RandomHopper-v0, ...]')
     parser.add_argument('--test_env', default=None, type=str, help='Test gym env')
     parser.add_argument('--group', default=None, type=str, help='Wandb run group')
     parser.add_argument('--algo', default='sac', type=str, help='RL Algo (ppo, sac)')
