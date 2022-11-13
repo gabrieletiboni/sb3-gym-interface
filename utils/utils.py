@@ -24,7 +24,7 @@ def create_dir(path):
 	try:
 		os.mkdir(os.path.join(path))
 	except OSError as error:
-		# print('Dir esiste già:', path)
+		# print('Dir already exists')
 		pass
 
 def create_dirs(path):
