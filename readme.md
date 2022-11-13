@@ -1,7 +1,7 @@
 # SB3 interface for gym environments
 This repo provides a ready-to-use code interface for applications using [stable-baselines3](https://stable-baselines3.readthedocs.io/) (sb3) for training RL agents in simulation on gym-registered environments. It abstracts complexity from the sb3 APIs providing useful global features under the hood.
 
-Features:
+**Features**:
 - [x] Automatic wandb recording of training return
 - [x] Tracks and returns best policy overall while training
 - [x] Flag for stopping training at average reward threshold
@@ -19,22 +19,22 @@ This repo is not meant to be used as a Python package. Simply clone the repo and
 ## Getting Started
 Basic pipeline for training an RL policy on gym-registered environments with this interface:
 ```
-	import wandb
-	from policy.policy import Policy
+import wandb
+from policy.policy import Policy
 
-	wandb.init( ... )
-	env = gym.make('Hopper-v3')
-	policy = Policy(algo='ppo', env=env, seed=42)
+wandb.init( ... )
+env = gym.make('Hopper-v3')
+policy = Policy(algo='ppo', env=env, seed=42)
 
-	""" Training """
-	avg_return, std_return, best_policy, info = policy.train(timesteps=1000)
-	torch.save(best_policy, 'best_policy.pth')
+""" Training """
+avg_return, std_return, best_policy, info = policy.train(timesteps=1000)
+torch.save(best_policy, 'best_policy.pth')
 
-	""" Evaluation """
-	policy.load_state_dict(best_policy)
-	avg_return, std_return = policy.eval()
+""" Evaluation """
+policy.load_state_dict(best_policy)
+avg_return, std_return = policy.eval()
 
-	wandb.finish()
+wandb.finish()
 ```
 Check out `train.py` for a complete example, and `train_random_envs.py` for an example with domain randomization at training time (requires [random-envs](https://github.com/gabrieletiboni/random-envs) repo).
 
