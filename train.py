@@ -1,4 +1,4 @@
-"""Sample script for using sb3-gym-template"""
+"""Sample script for using sb3-gym-interface"""
 from pprint import pprint
 import argparse
 import pdb
