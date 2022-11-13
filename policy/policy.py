@@ -99,7 +99,7 @@ class Policy:
 
 		self.model.learn(total_timesteps=timesteps, callback=eval_callback)
 
-		if return_best_model:   # Find best model
+		if return_best_model:   # Find best model among last and best
 			reward_final, std_reward_final = self.eval(n_eval_episodes=n_eval_episodes)
 
 			assert os.path.exists(os.path.join(best_model_save_path, "best_model.zip")), "best_model.zip hasn't been saved because too few evaluations have been performed. Check --eval_freq and -t"
@@ -115,7 +115,9 @@ class Policy:
 			    best_mean_reward, best_std_reward = reward_best, std_reward_best
 			    which_one = 'best'
 
-			return best_mean_reward, best_std_reward, best_policy, which_one
+			info = {'which_one': which_one}
+
+			return best_mean_reward, best_std_reward, best_policy, info
 		else:
 			return self.eval(n_eval_episodes)
 
