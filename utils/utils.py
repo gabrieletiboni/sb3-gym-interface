@@ -32,3 +32,16 @@ def create_dirs(path):
 		os.makedirs(os.path.join(path))
 	except OSError as error:
 		pass
+
+def get_learning_rate(args, env):
+	"""
+		Priority:
+			args.lr > env.preferred_lr > 0.0003 (default)
+	"""
+	if args.lr is None:
+		if env.get_attr('preferred_lr')[0] is None:
+			return 0.0003
+		else:
+			return env.get_attr('preferred_lr')[0]
+	else:
+		return args.lr
