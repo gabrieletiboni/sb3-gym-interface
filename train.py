@@ -1,4 +1,12 @@
-"""Sample script for using sb3-gym-interface to train an RL agent"""
+"""Sample script for using sb3-gym-interface to train an RL agent
+
+    Examples:
+        (DEBUG)
+            python train.py --offline --env <myGymEnv-v0> -t 1000 --eval_freq 500 --reward_threshold
+
+        (OFFICIAL)
+            python train.py --env <myGymEnv-v0> -t 5000000 --eval_freq 40000 --seed 42 --now 12 --algo ppo --reward_threshold
+"""
 from pprint import pprint
 import argparse
 import pdb

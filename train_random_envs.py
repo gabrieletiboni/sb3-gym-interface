@@ -2,10 +2,10 @@
 
     Examples:
         (DEBUG)
-            python train_udr.py --offline --env RandomHopper-v0 -t 1000 --eval_freq 500
+            python train_random-envs.py --offline --env RandomHopper-v0 -t 1000 --eval_freq 500 --reward_threshold
 
         (OFFICIAL)
-            python train_udr.py --env RandomHopper-v0 -t 5000000 --eval_freq 40000 --seed 4 --now 12 --algo ppo
+            python train_random-envs.py --env RandomHopper-v0 -t 5000000 --eval_freq 40000 --seed 42 --now 12 --algo ppo --reward_threshold
 """
 from pprint import pprint
 import argparse
@@ -21,7 +21,7 @@ import wandb
 from stable_baselines3.common.env_util import make_vec_env
 
 import random_envs
-from envs.RandomVecEnv import RandomSubprocVecEnv
+from customvecenvs.RandomVecEnv import RandomSubprocVecEnv
 from utils.utils import *
 from policy.policy import Policy
 
