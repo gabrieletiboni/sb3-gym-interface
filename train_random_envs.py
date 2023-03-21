@@ -45,6 +45,7 @@ def main():
 
     run_path = "runs/"+str(args.env)+"/"+get_run_name(args)+"_"+random_string+"/"
     create_dirs(run_path)
+    save_config(vars(args), run_path)
 
     env = gym.make(args.env)
     test_env = gym.make(args.test_env)
