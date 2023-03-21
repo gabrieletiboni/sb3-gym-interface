@@ -47,13 +47,12 @@ def main():
     create_dirs(run_path)
     save_config(vars(args), run_path)
 
-    env = gym.make(args.env)
-    test_env = gym.make(args.test_env)
-
     wandb.config.path = run_path
     wandb.config.hostname = socket.gethostname()
 
+    # env = gym.make(args.env)
     env = make_vec_env(args.env, n_envs=args.now, seed=args.seed, vec_env_cls=RandomSubprocVecEnv)
+    test_env = gym.make(args.test_env)
 
     bounds_low = env.get_task()[0] / args.bound_multiplier
     bounds_high = env.get_task()[0] * args.bound_multiplier

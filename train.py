@@ -40,13 +40,12 @@ def main():
     create_dirs(run_path)
     save_config(vars(args), run_path)
 
-    env = gym.make(args.env)
-    test_env = gym.make(args.test_env)
-
     wandb.config.path = run_path
     wandb.config.hostname = socket.gethostname()
 
+    # env = gym.make(args.env)
     env = make_vec_env(args.env, n_envs=args.now, seed=args.seed, vec_env_cls=SubprocVecEnv)
+    test_env = gym.make(args.test_env)
 
     policy = Policy(algo=args.algo,
                     env=env,
