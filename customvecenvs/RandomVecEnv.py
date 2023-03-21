@@ -132,7 +132,8 @@ class RandomSubprocVecEnv(VecEnv):
         return self.env_method('denormalize_parameters', parameters, indices=1)[0]
 
     def step_async(self, actions: np.ndarray) -> None:
-        assert (self.num_envs == 1 and actions.ndim == 1) or (self.num_envs > 1 and actions.ndim == 2 and actions.shape[0] == self.num_envs)
+        # assert (self.num_envs == 1 and actions.ndim == 1) or (self.num_envs > 1 and actions.ndim == 2 and actions.shape[0] == self.num_envs)
+        assert actions.shape[0] == self.num_envs
         for remote, action in zip(self.remotes, actions):
             remote.send(("step", action))
         self.waiting = True
