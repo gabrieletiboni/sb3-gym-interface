@@ -13,7 +13,7 @@ from stable_baselines3.common.env_util import make_vec_env
 from stable_baselines3.common.vec_env import SubprocVecEnv
 
 # import random_envs
-# from envs.RandomVecEnv import RandomSubprocVecEnv
+# from customvecenvs.RandomVecEnv import RandomSubprocVecEnv
 from utils.utils import *
 from policy.policy import Policy
 
