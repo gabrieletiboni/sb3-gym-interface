@@ -21,6 +21,7 @@ from utils.utils import *
 from policy.policy import Policy
 
 def main():
+    args.eval_freq = max(args.eval_freq // args.now, 1)   # Making eval_freq behave w.r.t. global timesteps, so it follows --timesteps convention
     assert args.env is not None
     
     if args.test_env is None:
@@ -97,10 +98,10 @@ def parse_args():
     parser.add_argument('--group', default=None, type=str, help='Wandb run group')
     parser.add_argument('--algo', default='sac', type=str, help='RL Algo [ppo, sac]')
     parser.add_argument('--lr', default=None, type=float, help='Learning rate')
-    parser.add_argument('--now', default=1, type=int, help='Number of cpus for parallelization')
-    parser.add_argument('--timesteps', '-t', default=1000, type=int, help='Training timesteps')
+    parser.add_argument('--now', default=1, type=int, help='Number of parallel environments, i.e. Number Of Workers')
+    parser.add_argument('--timesteps', '-t', default=1000, type=int, help='Training timesteps (global across all parallel environments)')
+    parser.add_argument('--eval_freq', default=10000, type=int, help='timesteps frequency for training evaluations (global across all parallel environments)')
     parser.add_argument('--reward_threshold', default=False, action='store_true', help='Stop at reward threshold')
-    parser.add_argument('--eval_freq', default=10000, type=int, help='timesteps frequency for training evaluations')
     parser.add_argument('--eval_episodes', default=50, type=int, help='# episodes for training evaluations')
     parser.add_argument('--test_episodes', default=100, type=int, help='# episodes for test evaluations')
     parser.add_argument('--seed', default=0, type=int, help='Random seed')
