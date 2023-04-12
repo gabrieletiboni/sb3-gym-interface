@@ -12,9 +12,9 @@ class WandbRecorderCallback(BaseCallback):
     def __init__(self, eval_freq=None, wandb_loss_suffix="", verbose=0):
         super(WandbRecorderCallback, self).__init__(verbose)
 
-        self.child_eval_freq = eval_freq
-        self.n_eval_calls = 0
         self.wandb_loss_suffix = wandb_loss_suffix
+        # self.child_eval_freq = eval_freq
+        # self.n_eval_calls = 0
 
 
     def _on_step(self) -> bool:
@@ -26,12 +26,12 @@ class WandbRecorderCallback(BaseCallback):
 
         Print stuff on wandb
         """
-        self.n_eval_calls += 1
-        
         last_mean_reward = self.parent.last_mean_reward
+        
+        # self.n_eval_calls += 1
+        # current_timestep = self.n_eval_calls*self.child_eval_freq
         # current_timestep = self.parent.n_calls
-        current_timestep = self.n_eval_calls*self.child_eval_freq
-        # current_timestep = self.num_timesteps # this number is multiplied by the number of parallel envs
+        current_timestep = self.num_timesteps  # this number is multiplied by the number of parallel envs
 
         wandb.log({"train_mean_reward"+self.wandb_loss_suffix: last_mean_reward, "timestep": current_timestep})
 
