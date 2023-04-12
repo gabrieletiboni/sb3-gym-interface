@@ -1,4 +1,12 @@
-"""Sample script for using sb3-gym-interface to train an RL agent"""
+"""Sample script for using sb3-gym-interface to train an RL agent
+
+    Examples:
+        (DEBUG)
+            python train.py --offline --env <myGymEnv-v0> -t 1000 --eval_freq 500 --reward_threshold
+
+        (OFFICIAL)
+            python train.py --env <myGymEnv-v0> -t 5000000 --eval_freq 40000 --seed 42 --now 12 --algo ppo --reward_threshold
+"""
 from pprint import pprint
 import argparse
 import pdb
@@ -6,9 +14,6 @@ import sys
 import socket
 import os
 
-import numpy as np
-import matplotlib.pyplot as plt
-import pandas as pd
 import gym
 import torch
 import wandb
@@ -16,7 +21,7 @@ from stable_baselines3.common.env_util import make_vec_env
 from stable_baselines3.common.vec_env import SubprocVecEnv
 
 # import random_envs
-# from envs.RandomVecEnv import RandomSubprocVecEnv
+# from customvecenvs.RandomVecEnv import RandomSubprocVecEnv
 from utils.utils import *
 from policy.policy import Policy
 
@@ -44,14 +49,14 @@ def main():
 
     run_path = "runs/"+str(args.env)+"/"+get_run_name(args)+"_"+random_string+"/"
     create_dirs(run_path)
-
-    env = gym.make(args.env)
-    test_env = gym.make(args.test_env)
+    save_config(vars(args), run_path)
 
     wandb.config.path = run_path
     wandb.config.hostname = socket.gethostname()
 
+    # env = gym.make(args.env)
     env = make_vec_env(args.env, n_envs=args.now, seed=args.seed, vec_env_cls=SubprocVecEnv)
+    test_env = gym.make(args.test_env)
 
     policy = Policy(algo=args.algo,
                     env=env,
