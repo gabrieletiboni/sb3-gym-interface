@@ -22,6 +22,8 @@ from policy.policy import Policy
 
 def main():
     args.eval_freq = max(args.eval_freq // args.now, 1)   # Making eval_freq behave w.r.t. global timesteps, so it follows --timesteps convention
+    torch.set_num_threads(max(6, args.now))  # hard-coded for now. Avoids taking up all CPUs when parallelizing with multiple environments and processes on hephaestus
+    
     assert args.env is not None
     
     if args.test_env is None:
