@@ -17,7 +17,7 @@ For more info refer to the official SB3 documentation at https://stable-baseline
 This repo is not meant to be used as a Python package. Simply clone the repo and use it a starting point for your RL project.
 ```
 # install desired PyTorch version
-# install random-envs if you wish to use it with this codebase (https://github.com/gabrieletiboni/random-envs)
+# (optional) install random-envs if you wish to use Domain Randomization-compatible gym environments with this codebase (https://github.com/gabrieletiboni/random-envs)
 
 pip install -r requirements.txt
 ```
