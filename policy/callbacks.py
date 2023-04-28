@@ -1,7 +1,10 @@
-from stable_baselines3.common.callbacks import BaseCallback
 import pdb
+
 import wandb
 import numpy as np
+import gym
+from stable_baselines3.common.callbacks import BaseCallback
+from stable_baselines3.common.vec_env.base_vec_env import VecEnv
 
 class WandbRecorderCallback(BaseCallback):
     """
@@ -32,8 +35,17 @@ class WandbRecorderCallback(BaseCallback):
         # current_timestep = self.n_eval_calls*self.child_eval_freq
         # current_timestep = self.parent.n_calls
         current_timestep = self.num_timesteps  # this number is multiplied by the number of parallel envs
-
         wandb.log({"train_mean_reward"+self.wandb_loss_suffix: last_mean_reward, "timestep": current_timestep})
+
+        ### Plot extra metrics (assumes env of type VecEnv)
+        wandb_extra_metrics = None
+        if isinstance(self.training_env, VecEnv):
+            if np.all(self.training_env.has_attr('wandb_extra_metrics')):
+                wandb_extra_metrics = self.training_env.get_attr('wandb_extra_metrics')[0]
+
+        if wandb_extra_metrics is not None:
+            for k, v in wandb_extra_metrics.items():
+                wandb.log({v: np.mean(self.training_env.get_attr(k)), "timestep": current_timestep})
 
         return True
 
