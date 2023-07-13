@@ -22,8 +22,17 @@ class Policy:
 				 lr=0.0003,
 				 device='cpu',
 				 seed=None,
-				 load_from_pathname=None):
+				 load_from_pathname=None,
+                 gradient_steps=-1):
+        """
+            Policy class that handles training and making all required networks.
+            It provides an easy-to-use interface to sb3 APIs, with wandb support, automatic
+            best model returned, and more under the hood.
 
+            ---
+            gradient_steps: number of gradient updates for SAC. -1 means as many as
+                            env.num_envs
+        """
 		# assert isinstance(env, VecEnv)
 		# else: env = make_vec_env(env, n_envs=1, seed=seed, vec_env_cls=DummyVecEnv)
 
@@ -31,6 +40,7 @@ class Policy:
 		self.device = device
 		self.env = env
 		self.algo = algo
+        self.gradient_steps = gradient_steps
 
 		if load_from_pathname is None:
 			self.model = self.create_model(algo, lr=lr)
@@ -48,7 +58,7 @@ class Policy:
 		elif algo == 'sac':
 			policy_kwargs = dict(activation_fn=torch.nn.Tanh,
 			                     net_arch=dict(pi=[128, 128], qf=[128, 128]))
-			model = SAC("MlpPolicy", self.env, policy_kwargs=policy_kwargs, learning_rate=lr, verbose=0, seed=self.seed, device=self.device)
+			model = SAC("MlpPolicy", self.env, policy_kwargs=policy_kwargs, learning_rate=lr, gradient_steps=self.gradient_steps, verbose=0, seed=self.seed, device=self.device)
 		else:
 			raise ValueError(f"RL Algo not supported: {algo}")
 
