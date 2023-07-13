@@ -61,6 +61,7 @@ def main():
     policy = Policy(algo=args.algo,
                     env=env,
                     lr=1e-3,
+                    gradient_steps=args.gradient_steps,
                     device=args.device,
                     seed=args.seed)
 
@@ -105,6 +106,7 @@ def parse_args():
     parser.add_argument('--group', default=None, type=str, help='Wandb run group')
     parser.add_argument('--algo', default='sac', type=str, help='RL Algo [ppo, sac]')
     parser.add_argument('--lr', default=None, type=float, help='Learning rate')
+    parser.add_argument('--gradient_steps', default=-1, type=int, help='Number of gradient steps when policy is updated in sb3 using SAC. -1 means as many as --args.now')
     parser.add_argument('--now', default=1, type=int, help='Number of parallel environments, i.e. Number Of Workers')
     parser.add_argument('--timesteps', '-t', default=1000, type=int, help='Training timesteps (global across all parallel environments)')
     parser.add_argument('--eval_freq', default=10000, type=int, help='timesteps frequency for training evaluations (global across all parallel environments)')
