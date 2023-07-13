@@ -65,7 +65,7 @@ class Policy:
 
 	def train(self,
 			  timesteps=1000,
-			  stopAtRewardThreshold=True,
+			  stopAtRewardThreshold=False,
 			  n_eval_episodes=50,
 			  eval_freq=1000,
 			  best_model_save_path=None,
